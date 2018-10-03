@@ -177,7 +177,7 @@ render() {
     <Footer/>
     </div >
     );
-        break;
+    break;
       case 1:
     return (
     <div className = "wrapper" >
@@ -192,7 +192,7 @@ render() {
       <Footer/>
     </div >
     );
-        break;
+    break;
       case 2:
     return (
     <div className = "wrapper" >
