@@ -5,7 +5,7 @@ class Header extends React.Component {
         return (
         <div>
         < h1> Tic Tac Toe</h1>
-        <p>v 1.1.1</p>
+        <p>v 1.1.0</p>
         </div>
         );
     }

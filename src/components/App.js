@@ -11,6 +11,8 @@ import Modal from './Modal';
 class App extends Component {
   constructor() {
     super();
+    this.clickHandlerFunction = this.clickHandlerFunction.bind(this);
+    this.restartGameFunction = this.restartGameFunction.bind(this);
     this.state = {
       gameGrid: Array(9).fill(null),
       score1: [],
@@ -25,7 +27,7 @@ class App extends Component {
     }
   }
 
-  restartGameFunction=(mode = 'npc')=> {
+  restartGameFunction(mode = 'npc') {
     this.setState({
       gameGrid: Array(9).fill(null),
       score1: [],
@@ -118,7 +120,7 @@ class App extends Component {
       showSettings: true   })
   }
 
-  clickHandlerFunction=(index)=>{
+  clickHandlerFunction(index) {
 
     let e = Number(index)
     let newGameGrid = this.state.gameGrid;
