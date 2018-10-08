@@ -5,14 +5,13 @@ import Grid from './Grid';
 import Message from './Message';
 import Footer from './Footer';
 import Modal from './Modal';
+import GamePause from './GamePause';
 
 
 
 class App extends Component {
   constructor() {
     super();
-    this.clickHandlerFunction = this.clickHandlerFunction.bind(this);
-    this.restartGameFunction = this.restartGameFunction.bind(this);
     this.state = {
       gameGrid: Array(9).fill(null),
       score1: [],
@@ -21,13 +20,14 @@ class App extends Component {
       lockClick: true,
       message: 'Select game mode',
       showSettings: true,
+      pause: false,
       gameMode: '',
       player1: 0,
       player2: 0,
     }
   }
 
-  restartGameFunction(mode = 'npc') {
+  restartGameFunction=(mode = 'npc') =>{
     this.setState({
       gameGrid: Array(9).fill(null),
       score1: [],
@@ -120,7 +120,7 @@ class App extends Component {
       showSettings: true   })
   }
 
-  clickHandlerFunction(index) {
+  clickHandlerFunction=(index)=> {
 
     let e = Number(index)
     let newGameGrid = this.state.gameGrid;
@@ -162,13 +162,45 @@ class App extends Component {
     this.checkForWinnerFunction()
   }
 
+  togglePauseFunction = () => {
+      this.setState({pause: !this.state.pause});
+  }
+
+  startNewGameSessionFunction=()=>{
+      this.setState({
+        pause: false,
+        gameGrid: Array(9).fill(null),
+        score1: [],
+        score2: [],
+        tileMarker: 'O',
+        lockClick: false,
+        showSettings: true,
+        player1: 0,
+        player2: 0,
+
+      });
+  }
+  startNewGameFunction=()=>{
+      this.setState({
+        pause: false,
+        showSettings: true
+      });
+  }
+
   render() {
         return (
-          <div className = "wrapper" >
+          <div className = "wrapper">
           <Modal
 		      showSettings = {this.state.showSettings}
 		      restart = {this.restartGameFunction}
           message = {this.state.message}
+          player1={this.state.player1}
+          player2={this.state.player2}/>
+          <GamePause
+		      pause = {this.state.pause}
+          togglePause= {this.togglePauseFunction}
+          newSession = {this.startNewGameSessionFunction}
+          newGame={this.startNewGameFunction}
           player1={this.state.player1}
           player2={this.state.player2}/>
           <Header/>
@@ -176,7 +208,8 @@ class App extends Component {
           message = {this.state.message}/>
           <Score
           player1={this.state.player1}
-          player2={this.state.player2}/>
+          player2={this.state.player2}
+          pause={this.togglePauseFunction}/>
           <Grid
           lockClick = {this.state.lockClick}
           gameGrid = {this.state.gameGrid}
