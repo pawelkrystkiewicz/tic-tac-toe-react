@@ -9,6 +9,8 @@ import GamePause from './GamePause';
 
 
 
+
+
 class App extends Component {
   constructor() {
     super();
@@ -24,27 +26,54 @@ class App extends Component {
       gameMode: '',
       player1: 0,
       player2: 0,
+      checkboxScript: false,
+      checkboxHuman: false
     }
   }
 
-  restartGameFunction=(mode = 'npc') =>{
+  restartGameFunction=(mode=this.state.gameMode) =>{
     this.setState({
       gameGrid: Array(9).fill(null),
       score1: [],
       score2: [],
-      tileMarker: 'O',
+      tileMarker: "O",
       lockClick: false,
-      message: 'Your move Player 1',
+      message: "Your move Player 1",
       gameMode: mode,
       showSettings: false,
-    })
+    });
   }
   nextMoveFunction() {
     for (let i = 0; i < this.state.gameGrid.length; i++)
       if (this.state.gameGrid[i] === null) {
         return i;
       }
-  }
+  };
+  //FUNCTION FOR HANDLING CHECKBOX
+  handleCheckbox=(e)=>{
+    this.setState({
+      gameMode: e
+    });
+
+    if(e==="npc"){
+    this.setState({
+      checkboxHuman: false,
+      checkboxScript: true
+    });
+    }else{
+    this.setState({
+       checkboxHuman: true,
+       checkboxScript: false
+    });
+    }
+    let XOR = (this.state.checkboxHuman && this.state.checkboxScript) && !(this.state.checkboxHuman && this.state.checkboxScript)
+    console.log(`----------------`);
+    console.log(`Disabled: ${XOR}`);
+    console.log(`Human: ${this.state.checkboxHuman}`);
+    console.log(`Script: ${this.state.checkboxScript}`);
+
+  };
+
   //FUNCTION CHECKING IF WIN HAS BEEN ACHIEVED
   findCharsFunction(source) {
     const condition = [
@@ -177,7 +206,8 @@ class App extends Component {
         showSettings: true,
         player1: 0,
         player2: 0,
-
+        checkboxScript: true,
+        checkboxHuman: false
       });
   }
   startNewGameFunction=()=>{
@@ -195,7 +225,11 @@ class App extends Component {
 		      restart = {this.restartGameFunction}
           message = {this.state.message}
           player1={this.state.player1}
-          player2={this.state.player2}/>
+          player2={this.state.player2}
+          checkboxHuman={this.state.checkboxHuman}
+          checkboxScript={this.state.checkboxScript}
+          handleCheckbox={this.handleCheckbox}
+          />
           <GamePause
 		      pause = {this.state.pause}
           togglePause= {this.togglePauseFunction}
